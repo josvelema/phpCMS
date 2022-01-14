@@ -15,7 +15,12 @@ include "includes/db.php";
             <!-- Blog Entries Column -->
             <div class="col-md-8">
             <?php 
-            $query = "SELECT * FROM posts";
+
+          if(isset($_GET['category'])) {
+            $this_post_cat = $_GET['category'];
+          }
+
+            $query = "SELECT * FROM posts WHERE post_cat_id = $this_post_cat";
 
             $select_all_posts = mysqli_query($conn , $query);
 
@@ -33,6 +38,7 @@ include "includes/db.php";
             $post_image = $row['post_image'];
 
             $post_content = substr($row['post_content'],0,128);
+            
             ?>
 
             <h1 class="page-header">
