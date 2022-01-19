@@ -239,13 +239,13 @@ td {
     text-align: center;
     border: none;
 }
-
+/* 
 td:nth-child(6) {
     background-color: #000;
     border: none;
     margin: 0;
      
-}
+} */
 
 .rj-td-wrap {
   

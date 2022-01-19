@@ -57,7 +57,7 @@
       </li>
 
       <li>
-        <a href="#"><i class="fa fa-fw fa-file"></i>Comments</a>
+        <a href="comments.php""><i class="fa fa-fw fa-file"></i>Comments</a>
       </li>
 
 
