@@ -17,7 +17,8 @@
 if (!isset($_SESSION['session_user_role'])) {
 
     header("Location: ../index.php");
-}
+} 
+
 
 
 
