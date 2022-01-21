@@ -20,13 +20,29 @@
 
   while($row = mysqli_fetch_assoc($select_all)) {
     $cat_title = $row['cat_title'];
+    $cat_id = $row['cat_id'];
 
-    echo "<li><a href='#'>{$cat_title}</a></li>";
+    echo "<li><a href='category.php?category={$cat_id}'>{$cat_title}</a></li>";
   }
 
 ?>
 
 <li><a href="admin">Admin</a></li>
+<?php
+
+if(isset($_SESSION['session_user_role'])) {
+
+    if(isset($_GET['p_id'])) {
+        $get_post =  $_GET['p_id'];
+        echo "<li><a href='admin/posts.php?source=edit_post&p_id={$get_post}'>Edit post</a></li>";
+    }
+}
+
+
+?>
+
+
+
 
 
                 </ul>

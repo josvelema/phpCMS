@@ -81,25 +81,33 @@ include "admin/functions.php";
 
                 if(isset($_POST['create_comment'])) {
 
-                    $this_post_id = $_GET['p_id'];
-
-                    $comment_author = $_POST['comment_author'];
-                    $comment_email = $_POST['comment_email'];
-                    $comment_content = $_POST['comment_content'];
                     
-                    $query = "INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status) ";
-
-                    $query .= "VALUES ({$this_post_id}, '{$comment_author}', '{$comment_email}', '{$comment_content}', 'unapproved')";
-
-                    $create_comment_query = mysqli_query($conn , $query);
-
-                    confirm_query($create_comment_query);
-
-                    $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
-                    $query .= "WHERE post_id = $this_post_id ";
+                                        $this_post_id = $_GET['p_id'];
                     
-                    $update_comment_count = mysqli_query($conn , $query);
+                                        $comment_author = $_POST['comment_author'];
+                                        $comment_email = $_POST['comment_email'];
+                                        $comment_content = $_POST['comment_content'];
+                    if(!empty($comment_author) && empty($comment_email) && empty($comment_content)) {
 
+                        $query = "INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status) ";
+
+                        $query .= "VALUES ({$this_post_id}, '{$comment_author}', '{$comment_email}', '{$comment_content}', 'unapproved')";
+    
+                        $create_comment_query = mysqli_query($conn , $query);
+    
+                        confirm_query($create_comment_query);
+    
+                        $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 ";
+                        $query .= "WHERE post_id = $this_post_id ";
+                        
+                        $update_comment_count = mysqli_query($conn , $query);
+    
+                    } else {
+                        echo "<script>alert('Fields cannot be empty!');</script>";
+                    }
+
+                    
+          
                 }
 
 

@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['create_post'])) {
-
+  
   $post_title = $_POST['post_title'];
   $post_author = $_POST['post_author'];
   $post_cat_id = $_POST['post_cat'];
@@ -24,6 +24,13 @@ if (isset($_POST['create_post'])) {
   $create_post_query = mysqli_query($conn, $query);
 
   confirm_query($create_post_query);
+
+  // last inserted 
+
+  $post_id = mysqli_insert_id($conn);
+
+  echo "<p class='bg-success'>Post created! - <a href='../post.php?p_id={$post_id}'>View post</a> - 
+  <a href='posts.php?source=add_post'>Add more posts</a></p>" ;
 }
 
 ?>
@@ -67,10 +74,19 @@ if (isset($_POST['create_post'])) {
     <input type="text" class="form-control" name="post_author" />
   </div>
 
+    
   <div class="form-group">
     <label for="post_status">Post Status</label>
-    <input type="text" class="form-control" name="post_status" />
+<select name="post_status" id="">
+  <option value="draft">Select option</option>
+  <option value="published">published</option>
+  <option value="draft">draft</option>
+
+  
+</select>
   </div>
+
+
 
   <div class="form-group">
     <label for="post_image">Post Image</label>

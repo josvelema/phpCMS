@@ -54,7 +54,7 @@
       echo "<a href='users.php?source=edit_user&edit_user={$user_id}' class='';>Edit</a>";
       
       echo "<td style='display: flex;justify-content: center;align-items: center;background: red;'>";
-      echo "<a href='userss.php?delete={$user_id}' class='';>Delete</a></td>";
+      echo "<a href='users.php?delete={$user_id}' class='';>Delete</a></td>";
 
       
       echo "</tr>";

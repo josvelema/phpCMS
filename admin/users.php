@@ -38,9 +38,7 @@
             include "includes/edit_user.php";
             break;
 
-            case 'delete_user';
-            include "includes/delete_user.php";
-            break;
+ 
 
             default:
 
