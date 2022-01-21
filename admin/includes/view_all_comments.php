@@ -35,17 +35,7 @@
       echo "<td>{$comment_author}</td>";
       echo "<td><div class='rj-td-wrap'>{$comment_content}</div></td>";
 
-      // $query = "SELECT * FROM categories WHERE cat_id = {$comment_post_id}";
-      // $select_categories_id = mysqli_query($conn, $query);
-      // while ($row = mysqli_fetch_assoc($select_categories_id)) {
-      //   $cat_id = $row['cat_id'];
-
-      //   $cat_email = $row['cat_email'];
-
-
-      // echo "<td>{$cat_email}</td>";
-      // }
-
+ 
 
 
 
