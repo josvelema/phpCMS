@@ -36,48 +36,42 @@ include "includes/db.php";
 
                 $post_status = $row['post_status'];
 
-                if ($post_status !== 'published') {
+                if ($post_status == 'published') {
 
-                    echo "<h1>No (approved) posts to display!</h1>";
-                } else {
-
-
-
-
-                
             ?>
 
-                <h1 class="page-header">
-                    Page Heading
-                    <small>Secondary Text</small>
-                </h1>
+                    <h1 class="page-header">
+                        Page Heading
+                        <small>Secondary Text</small>
+                    </h1>
 
-                <!-- First Blog Post -->
-                <h2>
-                    <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
-                </h2>
-
-
-                <p class="lead">
-                    by <a href="index.php"><?php echo $post_author ?></a>
-                </p>
+                    <!-- First Blog Post -->
+                    <h2>
+                        <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
+                    </h2>
 
 
-                <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date ?></p>
+                    <p class="lead">
+                        by <a href="index.php"><?php echo $post_author ?></a>
+                    </p>
 
 
-                <hr>
-
-                <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
-
-                <hr>
+                    <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date ?></p>
 
 
-                <p><?php echo $post_content ?></p>
-                <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+                    <hr>
+                    <a href="post.php?p_id=<?php echo $post_id; ?>">
+                        <img class="img-responsive" src="images/<?php echo $post_image ?>" alt="">
+                    </a>
+                    <hr>
 
-                <hr>
-            <?php } }?>
+
+                    <p><?php echo $post_content ?></p>
+                    <a class="btn btn-primary" href="post.php?p_id=<?php echo $post_id; ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+
+                    <hr>
+            <?php }
+            } ?>
 
 
 

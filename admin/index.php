@@ -150,6 +150,12 @@
 
 <?php
 
+$query = "SELECT * FROM posts WHERE post_status = 'published'";
+$sel_all_pub = mysqli_query($conn, $query);
+
+$count_pub = mysqli_num_rows($sel_all_pub);
+
+
 $query = "SELECT * FROM posts WHERE post_status = 'draft'";
 $sel_all_drafts = mysqli_query($conn, $query);
 
@@ -160,7 +166,7 @@ $sel_all_unapproved = mysqli_query($conn, $query);
 
 $count_unapproved = mysqli_num_rows($sel_all_unapproved);
 
-$query = "SELECT * FROM users WHERE user_role = 'subscriber'";
+$query = "SELECT * FROM users WHERE user_role = 'subscribers'";
 $sel_all_subs = mysqli_query($conn, $query);
 
 $count_subs = mysqli_num_rows($sel_all_subs);
@@ -182,10 +188,10 @@ $count_subs = mysqli_num_rows($sel_all_subs);
                             ['Data', 'Count'],
                             <?php 
                             
-                            $element_text = ['Active Post','Draft Posts','Categories','Users','Subscribers','Comments','Unapproved Comments'];
-                            $element_count = [$count_posts,$count_drafts,$count_cat,$count_users,$count_subs,$count_comments,$count_unapproved];
+                            $element_text = ['All posts','Active Post','Draft Posts','Categories','Users','Subscribers','Comments','Unapproved Comments'];
+                            $element_count = [$count_posts,$count_pub,$count_drafts,$count_cat,$count_users,$count_subs,$count_comments,$count_unapproved];
 
-                            for ($i = 0;$i < 7; $i++) {
+                            for ($i = 0;$i < 8; $i++) {
                                 echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
                             }
 

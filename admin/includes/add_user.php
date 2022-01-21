@@ -10,13 +10,13 @@ if (isset($_POST['add_user'])) {
 
   $user_role = $_POST['user_role'];
 
-  $user_image = $_FILES['user_image']['name'];
-  $user_image_tmp = $_FILES['user_image']['tmp_name'];
+  // $user_image = $_FILES['user_image']['name'];
+  // $user_image_tmp = $_FILES['user_image']['tmp_name'];
 
-  // $user_date = date(DATE_RFC2822);
+   // $user_date = date(DATE_RFC2822);
 
 
-  move_uploaded_file($user_image_tmp, "../images/$user_image");
+  // move_uploaded_file($user_image_tmp, "../images/$user_image");
 
   $query = "INSERT INTO users(user_first_name, user_last_name, user_role,user_name,user_email,user_pass) ";
                  
@@ -24,6 +24,8 @@ if (isset($_POST['add_user'])) {
   $add_user_query = mysqli_query($conn, $query);
 
   confirm_query($add_user_query);
+
+  echo "<h3>User Created: {$user_name} ! ". "<a href='users.php'>View Users</a></h3><br>";
 }
 
 ?>
