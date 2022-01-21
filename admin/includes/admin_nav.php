@@ -27,7 +27,7 @@
 
         <li class="divider"></li>
         <li>
-          <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+          <a href="../includes/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
         </li>
       </ul>
     </li>
@@ -79,6 +79,11 @@
 
       <li>
         <a href="#"><i class="fa fa-fw fa-file"></i>Profile</a>
+      </li>
+
+
+      <li>
+        <a href="../includes/logout.php"><i class="fa fa-fw fa-file"></i>Log out</a>
       </li>
     </ul>
   </div>

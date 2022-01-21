@@ -1,7 +1,27 @@
 <?php ob_start(); ?>
+<?php session_start(); ?>
 <?php require_once "../includes/db.php"; ?>
 <?php include "functions.php"; ?>
 
+
+<?php
+
+// if(isset($_SESSION['session_user_role'])) {
+
+//     if($_SESSION['session_user_role'] == 'subscriber') {
+
+//         header("Location: ../index.php");
+//     }
+// }
+
+if (!isset($_SESSION['session_user_role'])) {
+
+    header("Location: ../index.php");
+}
+
+
+
+?>
 
 
 <!DOCTYPE html>
@@ -15,7 +35,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Bootstrap Admin Template</title>
+    <title>SB Admin - <?php echo $_SESSION['session_user_name']; ?></title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
