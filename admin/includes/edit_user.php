@@ -1,6 +1,6 @@
 <?php
-if(isset($_GET['edit_user'])) {
-  
+if (isset($_GET['edit_user'])) {
+
   $edit_user_id = $_GET['edit_user'];
 
   $query = "SELECT * FROM users WHERE user_id = $edit_user_id ";
@@ -15,9 +15,7 @@ if(isset($_GET['edit_user'])) {
     $user_email = $row['user_email'];
     $user_image = $row['user_image'];
     $user_role = $row['user_role'];
-    
-}
-
+  }
 }
 
 if (isset($_POST['edit_user'])) {
@@ -31,18 +29,26 @@ if (isset($_POST['edit_user'])) {
 
   $user_role = $_POST['user_role'];
 
-  // $user_image = $_FILES['user_image']['name'];
-  // $user_image_tmp = $_FILES['user_image']['tmp_name'];
 
-  // $user_date = date(DATE_RFC2822);
+  // $query = "SELECT randSalt FROM users";
+  // $sel_randsalt_query = mysqli_query($conn, $query);
+
+  // if (!$sel_randsalt_query) {
+  //   die("query failed! " . mysqli_error($conn));
+  // }
+
+  // $row = mysqli_fetch_array($sel_randsalt_query);
+
+  // $salt = $row['randSalt'];
+
+  // $hashed_pass = crypt($user_pass, $salt);
 
 
-  // move_uploaded_file($user_image_tmp, "../images/$user_image");
 
   $query = "UPDATE users SET ";
   $query .= "user_name = '{$user_name}', ";
-  $query .= "user_pass = {$user_pass}, ";
-  
+  $query .= "user_pass = {$hashed_pass}, ";
+
   $query .= "user_first_name = '{$user_first_name}', ";
   $query .= "user_last_name = '{$user_last_name}', ";
   $query .= "user_email = '{$user_email}', ";
@@ -63,28 +69,28 @@ if (isset($_POST['edit_user'])) {
 
   <div class="form-group">
     <label for="title">Username</label>
-    <input type="text" class="form-control" name="user_name" value="<?php echo $user_name;?>" />
+    <input type="text" class="form-control" name="user_name" value="<?php echo $user_name; ?>" />
   </div>
 
 
   <div class="form-group">
     <label for="user_pass">password</label>
-    <input type="password" class="form-control" name="user_pass"  value="<?php echo $user_pass; ?>"/>
+    <input type="password" class="form-control" name="user_pass" value="<?php echo $user_pass; ?>" />
   </div>
 
   <div class="form-group">
     <label for="user_email">E-mail</label>
-    <input type="email" class="form-control" name="user_email" id=""  value="<?php echo $user_email; ?>"/>
+    <input type="email" class="form-control" name="user_email" id="" value="<?php echo $user_email; ?>" />
   </div>
 
   <div class="form-group">
     <label for="user_first_nametitle">First Name</label>
-    <input type="text" class="form-control" name="user_first_name"  value="<?php echo $user_first_name;?>"/>
+    <input type="text" class="form-control" name="user_first_name" value="<?php echo $user_first_name; ?>" />
   </div>
 
   <div class="form-group">
     <label for="user_last_name">Last Name</label>
-    <input type="text" class="form-control" name="user_last_name"  value="<?php echo $user_last_name; ?>"/>
+    <input type="text" class="form-control" name="user_last_name" value="<?php echo $user_last_name; ?>" />
   </div>
 
   <!-- <div class="form-group">
@@ -116,22 +122,21 @@ if (isset($_POST['edit_user'])) {
 
     <label for="user_role">User role</label>
     <select name="user_role" id="">
-    <option value="<?php echo $user_role ;?>"><?php echo $user_role ;?></option>
-    <?php 
-  
-  if($user_role == 'admin') {
-   echo '<option value="subscriber">Subscriber</option>';
-         
-  } else {
-    echo '<option value="admin">Admin</option>';
-  }
+      <option value="<?php echo $user_role; ?>"><?php echo $user_role; ?></option>
+      <?php
 
-  
-  ?>
+      if ($user_role == 'admin') {
+        echo '<option value="subscriber">Subscriber</option>';
+      } else {
+        echo '<option value="admin">Admin</option>';
+      }
 
-       
+
+      ?>
+
+
     </select>
-  </div> 
+  </div>
 
   <!-- <div class="form-group">
     <label for="user_image">User Image</label>
