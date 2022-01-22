@@ -65,7 +65,7 @@
       echo "<a href='posts.php?source=edit_post&p_id={$post_id}' class='';>Edit</a></td>";
 
       echo "<td style='display: flex;justify-content: center;align-items: center;background: red;'>";
-      echo "<a href='posts.php?delete={$post_id}' class=''; onclick=\" return confirm('Are you sure you want to delete?'); \">Delete</a></td>";
+      echo "<a href='posts.php?delete={$post_id}' class=''; onClick=\" return confirm('Are you sure you want to delete?'); \">Delete</a></td>";
       
       echo "</tr>";
     }
