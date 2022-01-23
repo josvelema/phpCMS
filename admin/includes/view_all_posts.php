@@ -11,6 +11,7 @@
       <th>tags</th>
       <th>comment_<br>count</th>
       <th>status</th>
+      <th>views</th>
     </tr>
   </thead>
 
@@ -31,6 +32,7 @@
       $post_tags = $row['post_tags'];
       $post_comment_count = $row['post_comment_count'];
       $post_status = $row['post_status'];
+      $post_views = $row['post_views'];
 
       echo "<tr>";
       echo "<td>{$post_id}</td>";
@@ -57,6 +59,9 @@
       echo "<td>{$post_tags}</td>";
       echo "<td>{$post_comment_count}</td>";
       echo "<td>{$post_status}</td>";
+      echo "<td>{$post_views}<br>
+      <a href='posts.php?reset={$post_id}' onClick=\" return confirm('Are you sure you want to reset views?'); \">reset</a></td>";
+
 
       
       // echo "<td><a href='../post.php?p_id={$post_id}';>View Post</a></td>";
@@ -95,6 +100,18 @@ return
     $query = "DELETE FROM posts WHERE post_id = {$del_post_id}";
 
     $delete_query = mysqli_query($conn ,$query);
+
+    header("Location: posts.php");
+
+  }
+
+  if(isset($_GET['reset'])) {
+
+    $rst_post_id = $_GET['reset'];
+
+    $query = "UPDATE posts SET post_views = 0 WHERE post_id = {$rst_post_id}";
+
+    $reset_query = mysqli_query($conn ,$query);
 
     header("Location: posts.php");
 

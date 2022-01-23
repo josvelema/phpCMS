@@ -15,32 +15,8 @@ include "includes/db.php";
         <!-- Blog Entries Column -->
         <div class="col-md-8">
             <?php
-
-            $max_posts_per_page = 2;
-
-            if (isset($_GET['page'])) {
-                $page = $_GET['page'];
-            } else {
-
-                $page = "";
-            }
-
-            if ($page == "" || $page == 1) {
-                $page_1 = 0;
-            } else {
-
-                $page_1 = ($page * $max_posts_per_page) - $max_posts_per_page;
-            }
-
-
-            $post_query_count = "SELECT * FROM posts";
-            $count_posts = mysqli_query($conn, $post_query_count);
-            $counted_posts = mysqli_num_rows($count_posts);
-            $total_posts = mysqli_num_rows($count_posts);
-            $counted_posts = ceil($counted_posts / 5);
-
-
-            $query = "SELECT * FROM posts LIMIT $page_1, 5";
+            
+            $query = "SELECT * FROM posts";
 
             $select_all_posts = mysqli_query($conn, $query);
 
@@ -66,13 +42,13 @@ include "includes/db.php";
             ?>
 
                     <h1 class="page-header">
-                        <h2> <?php echo $total_posts; ?></h2>
+                        Page Heading
                         <small>Secondary Text</small>
                     </h1>
 
                     <!-- First Blog Post -->
                     <h2>
-                        <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
+                        <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title ;?></a>
                     </h2>
 
 
@@ -112,23 +88,6 @@ include "includes/db.php";
     <!-- /.row -->
 
     <hr>
-    <ul class="pager">
-        <?php
-
-
-        for ($i = 1; $i <= $counted_posts; $i++) {
-
-            if ($i == $page) {
-                echo "<li><a class='active_link' href='index.php?page={$i}'>{$i}</a></li>";
-            } else {
-                echo "<li><a href='index.php?page={$i}'>{$i}</a></li>";
-            }
-        }
-        ?>
-
-    </ul>
-
-
 
     <!-- Footer -->
     <?php include "includes/footer.php" ?>
