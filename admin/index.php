@@ -3,11 +3,6 @@
 <div id="wrapper">
 
     <?php include "includes/admin_nav.php"; ?>
-
-
-
-
-
     <div id="page-wrapper">
 
         <div class="container-fluid ">
@@ -19,6 +14,8 @@
                         Welcome to Admin -
                         <small><?php echo $_SESSION['session_user_name']; ?></small>
                     </h1>
+
+                    
 
 
 

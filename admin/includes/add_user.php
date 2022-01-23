@@ -13,19 +13,21 @@ if (isset($_POST['add_user'])) {
   // $user_image = $_FILES['user_image']['name'];
   // $user_image_tmp = $_FILES['user_image']['tmp_name'];
 
-   // $user_date = date(DATE_RFC2822);
+  // $user_date = date(DATE_RFC2822);
 
 
   // move_uploaded_file($user_image_tmp, "../images/$user_image");
 
+  $user_pass = password_hash($user_pass, PASSWORD_BCRYPT , array('cost' => 12));
+
   $query = "INSERT INTO users(user_first_name, user_last_name, user_role,user_name,user_email,user_pass) ";
-                 
-  $query .= "VALUES('{$user_first_name}','{$user_last_name}','{$user_role}','{$user_name}','{$user_email}', '{$user_pass}') "; 
+
+  $query .= "VALUES('{$user_first_name}','{$user_last_name}','{$user_role}','{$user_name}','{$user_email}', '{$user_pass}') ";
   $add_user_query = mysqli_query($conn, $query);
 
   confirm_query($add_user_query);
 
-  echo "<h3>User Created: {$user_name} ! ". "<a href='users.php'>View Users</a></h3><br>";
+  echo "<h3>User Created: {$user_name} ! " . "<a href='users.php'>View Users</a></h3><br>";
 }
 
 ?>
@@ -86,10 +88,10 @@ if (isset($_POST['add_user'])) {
 
     <label for="user_role">User role</label>
     <select name="user_role" id="" value="admin">
-        <option value="admin">Admin</option>
-        <option value="subscriber">Subscriber</option>
+      <option value="admin">Admin</option>
+      <option value="subscriber">Subscriber</option>
     </select>
-  </div> 
+  </div>
 
   <!-- <div class="form-group">
     <label for="user_image">User Image</label>
