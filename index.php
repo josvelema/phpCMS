@@ -1,3 +1,4 @@
+<?php ob_start(); ?>
 <?php
 
 include "includes/header.php";
@@ -16,7 +17,7 @@ include "includes/db.php";
         <div class="col-md-8">
             <?php
 
-            $max_posts_per_page = 2;
+            $max_posts_per_page = 5;
 
             if (isset($_GET['page'])) {
                 $page = $_GET['page'];
@@ -36,13 +37,14 @@ include "includes/db.php";
             $post_query_count = "SELECT * FROM posts";
             $count_posts = mysqli_query($conn, $post_query_count);
             $counted_posts = mysqli_num_rows($count_posts);
-            $total_posts = mysqli_num_rows($count_posts);
-            $counted_posts = ceil($counted_posts / 5);
+            // $total_posts = mysqli_num_rows($count_posts);
+            $counted_posts = ceil($counted_posts / $max_posts_per_page);
 
 
-            $query = "SELECT * FROM posts LIMIT $page_1, 5";
+            $query = "SELECT * FROM posts ORDER by post_id DESC LIMIT $page_1, $max_posts_per_page ";
 
             $select_all_posts = mysqli_query($conn, $query);
+
 
             while ($row = mysqli_fetch_assoc($select_all_posts)) {
 
@@ -66,7 +68,7 @@ include "includes/db.php";
             ?>
 
                     <h1 class="page-header">
-                        <h2> <?php echo $total_posts; ?></h2>
+                        <!-- <h2> <?php echo $total_posts; ?></h2> -->
                         <small>Secondary Text</small>
                     </h1>
 
