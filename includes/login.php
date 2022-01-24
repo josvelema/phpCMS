@@ -6,11 +6,10 @@
 
 if (isset($_POST['login'])) {
 
-  $login_user_name = $_POST['user_name'];
-  $login_user_pass = $_POST['user_pass'];
+  $login_user_name = mysqli_real_escape_string($conn,$_POST['user_name']);
+  $login_user_pass = mysqli_real_escape_string($conn,$_POST['user_pass']);
 
-  $login_user_name = mysqli_real_escape_string($conn, $login_user_name);
-  $login_user_pass = mysqli_real_escape_string($conn, $login_user_pass);
+  
 
   $query = "SELECT * FROM users WHERE user_name = '{$login_user_name}' ";
 
@@ -61,7 +60,7 @@ if (isset($_POST['login'])) {
     header("Location: ../admin");
   } else {
 
-    echo "something else";
+    
     header("Location: ../index.php");
   }
 }

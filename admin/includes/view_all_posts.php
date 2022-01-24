@@ -47,7 +47,7 @@
         $cat_title = $row['cat_title'];
 
 
-      echo "<td>{$cat_title}</td>";
+        echo "<td>{$cat_title}</td>";
       }
 
 
@@ -57,13 +57,24 @@
       echo "<td><img class='rj-img-posts' src='../images/$post_image' alt='img'></td>";
       echo "<td><div class='rj-td-wrap'>{$post_content}</div></td>";
       echo "<td>{$post_tags}</td>";
-      echo "<td>{$post_comment_count}</td>";
+
+      $comment_query = "SELECT * FROM comments WHERE comment_post_id = $post_id";
+      $send_comment_query = mysqli_query($conn, $comment_query);
+
+      $comment_row = mysqli_fetch_array($send_comment_query);
+      $comment_id = $comment_row['comment_id'];
+
+      $count_comments = mysqli_num_rows($send_comment_query);
+
+      // echo "<td>{$post_comment_count}</td>";
+      echo "<td>$count_comments<br><a href='post_comments.php?id=$post_id'>view</a></td>";
+
       echo "<td>{$post_status}</td>";
       echo "<td>{$post_views}<br>
       <a href='posts.php?reset={$post_id}' onClick=\" return confirm('Are you sure you want to reset views?'); \">reset</a></td>";
 
 
-      
+
       // echo "<td><a href='../post.php?p_id={$post_id}';>View Post</a></td>";
 
       echo "<td style='display: flex;justify-content: center;align-items: center;background: orange;'>";
@@ -71,52 +82,64 @@
 
       echo "<td style='display: flex;justify-content: center;align-items: center;background: red;'>";
       echo "<a href='posts.php?delete={$post_id}' class=''; onClick=\" return confirm('Are you sure you want to delete?'); \">Delete</a></td>";
-      
+
       echo "</tr>";
     }
 
 
     ?>
-<script>
-function confirmMe() {
-//TODO write better confirm function!!
+    <script>
+      function confirmMe() {
+        //TODO write better confirm function!!
 
-confirm('are you sure you want to delete?');
+        confirm('are you sure you want to delete?');
 
-return
+        return
 
-}
-</script>
+      }
+    </script>
 
 
   </tbody>
 
-  <?php 
-  
-  if(isset($_GET['delete'])) {
+  <?php
 
-    $del_post_id = $_GET['delete'];
+  if (isset($_GET['delete'])) {
 
-    $query = "DELETE FROM posts WHERE post_id = {$del_post_id}";
+    if (isset($_SESSION['user_role'])) {
 
-    $delete_query = mysqli_query($conn ,$query);
+      if ($_SESSION['user_role'] == 'admin') {
 
-    header("Location: posts.php");
 
+        $del_post_id = mysqli_real_escape_string($conn, $_GET['delete']);
+
+        $query = "DELETE FROM posts WHERE post_id = {$del_post_id}";
+
+        $delete_query = mysqli_query($conn, $query);
+
+        header("Location: posts.php");
+      }
+    }
   }
 
-  if(isset($_GET['reset'])) {
+  if (isset($_GET['reset'])) {
 
-    $rst_post_id = $_GET['reset'];
+    if (isset($_SESSION['user_role'])) {
 
-    $query = "UPDATE posts SET post_views = 0 WHERE post_id = {$rst_post_id}";
+      if ($_SESSION['user_role'] == 'admin') {
 
-    $reset_query = mysqli_query($conn ,$query);
 
-    header("Location: posts.php");
+        $rst_user_id = mysqli_real_escape_string($conn, $_GET['delete']);
 
+        $query = "UPDATE posts SET post_views = 0 WHERE post_id = {$rst_post_id}";
+
+        $reset_query = mysqli_query($conn, $query);
+
+        header("Location: posts.php");
+      }
+    }
   }
-  
+
   ?>
 
 

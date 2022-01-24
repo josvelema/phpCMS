@@ -1,14 +1,14 @@
 <?php
 if (isset($_POST['add_user'])) {
-  // $user_id = $_POST['user_id'];
+  // $user_id = escape($_POST['user_id']);
 
-  $user_name = $_POST['user_name'];
-  $user_pass = $_POST['user_pass'];
-  $user_email = $_POST['user_email'];
-  $user_first_name = $_POST['user_first_name'];
-  $user_last_name  = $_POST['user_last_name'];
+  $user_name = escape($_POST['user_name']);
+  $user_pass = escape($_POST['user_pass']);
+  $user_email = escape($_POST['user_email']);
+  $user_first_name = escape($_POST['user_first_name']);
+  $user_last_name  = escape($_POST['user_last_name']);
 
-  $user_role = $_POST['user_role'];
+  $user_role = escape($_POST['user_role']);
 
   // $user_image = $_FILES['user_image']['name'];
   // $user_image_tmp = $_FILES['user_image']['tmp_name'];

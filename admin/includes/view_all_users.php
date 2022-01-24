@@ -27,7 +27,7 @@
       $user_email = $row['user_email'];
       $user_image = $row['user_image'];
       $user_role = $row['user_role'];
-      
+
 
       echo "<tr>";
       echo "<td>{$user_id}</td>";
@@ -38,25 +38,25 @@
       echo "<td>{$user_role}</td>";
       echo "<td>date</td>";
 
-        // $query = "SELECT * FROM users";
-        // $select_user_id_query = mysqli_query($conn,$query);
-        // while($row = mysqli_fetch_assoc($select_user_id_query)) {
-        //   $user_id = $row['user_id'];
-        //   $user_name = $row['user_name'];
+      // $query = "SELECT * FROM users";
+      // $select_user_id_query = mysqli_query($conn,$query);
+      // while($row = mysqli_fetch_assoc($select_user_id_query)) {
+      //   $user_id = $row['user_id'];
+      //   $user_name = $row['user_name'];
 
-        //   echo "<td><a href='../post.php?p_id=$user_id'>$user_name</a></td?";
-        // }
+      //   echo "<td><a href='../post.php?p_id=$user_id'>$user_name</a></td?";
+      // }
 
-      
+
       echo "<td><a href='users.php?change_to_admin={$user_id}'>Admin</a> / <a href='users.php?change_to_sub={$user_id}'>Subscriber</a></td>";
-    
+
       echo "<td style='display: flex;justify-content: center;align-items: center;background: orange;'>";
       echo "<a href='users.php?source=edit_user&edit_user={$user_id}' class='';>Edit</a>";
-      
+
       echo "<td style='display: flex;justify-content: center;align-items: center;background: red;'>";
       echo "<a href='users.php?delete={$user_id}' class='';>Delete</a></td>";
 
-      
+
       echo "</tr>";
     }
 
@@ -65,49 +65,53 @@
 
   </tbody>
 
-  <?php 
-  
-  
-  if(isset($_GET['change_to_sub'])) {
+  <?php
+
+
+  if (isset($_GET['change_to_sub'])) {
 
     $role_user_id = $_GET['change_to_sub'];
-    
+
     $query = "UPDATE users SET user_role = 'subscriber' WHERE user_id = {$role_user_id}";
 
-    $sub_role_query = mysqli_query($conn ,$query);
+    $sub_role_query = mysqli_query($conn, $query);
 
     header("Location: users.php");
-    
   }
-  
 
-  if(isset($_GET['change_to_admin'])) {
+
+  if (isset($_GET['change_to_admin'])) {
 
     $role_user_id = $_GET['change_to_admin'];
-    
+
     $query = "UPDATE users SET user_role = 'admin' WHERE user_id = {$role_user_id}";
 
-    $admin_role_query = mysqli_query($conn ,$query);
+    $admin_role_query = mysqli_query($conn, $query);
 
     header("Location: users.php");
   }
 
-  
-  if(isset($_GET['delete'])) {
 
-    $del_user_id = $_GET['delete'];
+  if (isset($_GET['delete'])) {
 
-    $query = "DELETE FROM users WHERE user_id = {$del_user_id}";
+    if (isset($_SESSION['user_role'])) {
 
-    $delete_query = mysqli_query($conn ,$query);
+      if ($_SESSION['user_role'] == 'admin') {
 
-    header("Location: users.php");
 
+        $del_user_id = mysqli_real_escape_string($conn,$_GET['delete']);
+
+        $query = "DELETE FROM users WHERE user_id = {$del_user_id}";
+
+        $delete_query = mysqli_query($conn, $query);
+
+        header("Location: users.php");
+      }
+    }
   }
-  
-  
-  
-  
+
+
+
   ?>
 
 

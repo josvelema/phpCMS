@@ -17,16 +17,16 @@ while ($row = mysqli_fetch_assoc($select_posts_by_id)) {
   $post_date = $row['post_date'];
 }
 if (isset($_POST['update_post'])) {
-  $post_author = $_POST['post_author'];
-  $post_title = $_POST['post_title'];
-  $post_cat_id = $_POST['post_cat'];
-  $post_status = $_POST['post_status'];
+  $post_author = escape($_POST['post_author']);
+  $post_title = escape($_POST['post_title']);
+  $post_cat_id = escape($_POST['post_cat']);
+  $post_status = escape($_POST['post_status']);
 
   $post_image = $_FILES['post_image']['name'];
   $post_image_tmp = $_FILES['post_image']['tmp_name'];
 
-  $post_content = $_POST['post_content'];
-  $post_tags = $_POST['post_tags'];
+  $post_content = escape($_POST['post_content']);
+  $post_tags = escape($_POST['post_tags']);
   move_uploaded_file($post_image_tmp, "../images/$post_image");
 
   if (empty($post_image)) {
@@ -55,7 +55,7 @@ if (isset($_POST['update_post'])) {
   confirm_query($update_post);
 
   echo "<p class='bg-success'>Post updated! - <a href='../post.php?p_id={$the_post_id}'>View post</a> - 
-  <a href='posts.php'>Edit more posts</a></p>" ;
+  <a href='posts.php'>Edit more posts</a></p>";
 }
 
 ?>
@@ -95,17 +95,16 @@ if (isset($_POST['update_post'])) {
   <div class="form-group">
     <select name="post_status" id="">
       <option value="<?php echo $post_status; ?>"><?php echo $post_status; ?></option>
-     <?php 
-  if($post_status == 'published') {      
-      
-  echo "<option value='draft'>draft</option>";
-  } else {
-  echo "<option value='published'>published</option>";
+      <?php
+      if ($post_status == 'published') {
 
-  }
-      
+        echo "<option value='draft'>draft</option>";
+      } else {
+        echo "<option value='published'>published</option>";
+      }
+
       ?>
-      </select>
+    </select>
   </div>
 
 
