@@ -1,32 +1,30 @@
-<?php 
+<?php
 
-function escape($cleanMe) {
+function escape($cleanMe)
+{
   global $conn;
 
-return mysqli_real_escape_string($conn, trim(strip_tags($cleanMe)));
-
-
+  return mysqli_real_escape_string($conn, trim(strip_tags($cleanMe)));
 }
 
 
 
-function confirm_query($result) {
+function confirm_query($result)
+{
 
   global $conn;
 
-  if(!$result) {
+  if (!$result) {
 
     die("Query Failed : " . mysqli_error($conn));
   }
-  
-
-
 }
 
 
 // Create Category
 
-function insert_category() {
+function insert_category()
+{
 
   global $conn;
 
@@ -51,7 +49,8 @@ function insert_category() {
 
 // Read categories
 
-function read_categories() {
+function read_categories()
+{
 
   global $conn;
 
@@ -68,14 +67,13 @@ function read_categories() {
     echo "<td><a href='categories.php?delete={$cat_id}' class='btn btn-danger'>Delete</a> ";
     echo "<a href='categories.php?update={$cat_id}' class='btn btn-warning'>Update</a></td>";
     echo "</tr>";
-
   }
-
 }
 
 // delete category
 
-function delete_category() {
+function delete_category()
+{
 
   global $conn;
 
@@ -86,35 +84,58 @@ function delete_category() {
     $delete_query = mysqli_query($conn, $query);
     header("Location: categories.php");
   }
-
 }
 
-function users_online() {
+function users_online()
+{
 
   // users online 
-global $conn;
+  global $conn;
 
-$session_catcher = session_id();
-$time = time();
-$time_out_sec = 60;
-$time_out = $time - $time_out_sec;
+  $session_catcher = session_id();
+  $time = time();
+  $time_out_sec = 60;
+  $time_out = $time - $time_out_sec;
 
-$query = "SELECT * FROM users_online WHERE session = '$session_catcher'";
-$send_query = mysqli_query($conn,$query);
-$count_rows = mysqli_num_rows($send_query);
+  $query = "SELECT * FROM users_online WHERE session = '$session_catcher'";
+  $send_query = mysqli_query($conn, $query);
+  $count_rows = mysqli_num_rows($send_query);
 
-if($count_rows == NULL) {
-mysqli_query($conn, "INSERT INTO users_online(session, time) VALUES('$session_catcher','$time')");
-
-} else {
+  if ($count_rows == NULL) {
+    mysqli_query($conn, "INSERT INTO users_online(session, time) VALUES('$session_catcher','$time')");
+  } else {
     mysqli_query($conn, "UPDATE users_online SET time = '$time' WHERE session = '$session_catcher')");
+  }
 
+
+  $users_online_query = mysqli_query($conn, "SELECT * FROM users_online WHERE time > '$time_out'");
+  return $count_users = mysqli_num_rows($users_online_query);
 }
 
-    
-    $users_online_query = mysqli_query($conn, "SELECT * FROM users_online WHERE time > '$time_out'");
-   return $count_users = mysqli_num_rows($users_online_query);
+function recordCount($table)
+{
 
+  global $conn;
+
+  $query = "SELECT * FROM " . $table;
+  $sel_all_posts = mysqli_query($conn, $query);
+  $result = mysqli_num_rows($sel_all_posts);
+
+  confirm_query($result);
+
+  return $result;
 }
 
-?>
+function statusCheck($table, $column, $status)
+{
+
+  global $conn;
+
+  $query = "SELECT * FROM $table WHERE $column = '$status' ";
+  $result = mysqli_query($conn, $query);
+
+  confirm_query($result);
+
+  return mysqli_num_rows($result);
+
+}

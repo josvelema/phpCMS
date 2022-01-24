@@ -18,13 +18,7 @@
   <tbody>
 
     <?php
-    // joining tables , seperate tables and colums by a dot.
-
-    $query = "SELECT posts.post_id, posts.post_author, posts.post_title, posts.post_content, posts.post_cat_id, posts.post_status, ";
-    $query .= "posts.post_image, posts.post_tags, posts.post_comment_count, posts.post_date, posts.post_views, ";
-    $query .= "categories.cat_id, categories.cat_title ";
-    $query .= "FROM posts LEFT JOIN categories ON posts.post_cat_id = categories.cat_id";
-
+    $query = "SELECT * FROM posts";
     $select_posts = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_assoc($select_posts)) {
@@ -39,14 +33,26 @@
       $post_comment_count = $row['post_comment_count'];
       $post_status = $row['post_status'];
       $post_views = $row['post_views'];
-      $cat_title = $row['cat_title'];
-      //cat_id also available if needed
 
       echo "<tr>";
       echo "<td>{$post_id}</td>";
       echo "<td><a href='../post.php?p_id={$post_id}';>{$post_title}</a></td>";
       echo "<td>{$post_author}</td>";
-      echo "<td>{$cat_title}</td>";
+
+      $query = "SELECT * FROM categories WHERE cat_id = {$post_cat_id}";
+      $select_categories_id = mysqli_query($conn, $query);
+      while ($row = mysqli_fetch_assoc($select_categories_id)) {
+        $cat_id = $row['cat_id'];
+
+        $cat_title = $row['cat_title'];
+
+
+        echo "<td>{$cat_title}</td>";
+      }
+
+
+
+
       echo "<td>{$post_date}</td>";
       echo "<td><img class='rj-img-posts' src='../images/$post_image' alt='img'></td>";
       echo "<td><div class='rj-td-wrap'>{$post_content}</div></td>";

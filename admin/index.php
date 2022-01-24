@@ -15,7 +15,7 @@
                         <small><?php echo $_SESSION['session_user_name']; ?></small>
                     </h1>
 
-                    
+
 
 
 
@@ -33,16 +33,7 @@
                                     <i class="fa fa-file-text fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <?php
-                                    $query = "SELECT * FROM posts";
-                                    $sel_all_posts = mysqli_query($conn, $query);
-
-                                    $count_posts = mysqli_num_rows($sel_all_posts);
-                                    ?>
-
-
-
-                                    <div class='huge'><?php echo $count_posts; ?></div>
+                                    <div class='huge'><?php echo $count_posts = recordCount('posts'); ?></div>
                                     <div>Posts</div>
                                 </div>
                             </div>
@@ -64,14 +55,7 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <?php
-                                    $query = "SELECT * FROM comments";
-                                    $sel_all_comments = mysqli_query($conn, $query);
-
-                                    $count_comments = mysqli_num_rows($sel_all_comments);
-
-                                    ?>
-                                    <div class='huge'><?php echo $count_comments; ?></div>
+                                    <div class='huge'><?php echo $count_comments = recordCount('comments'); ?></div>
                                     <div>Comments</div>
                                 </div>
                             </div>
@@ -93,14 +77,8 @@
                                     <i class="fa fa-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <?php
-                                    $query = "SELECT * FROM users";
-                                    $sel_all_users = mysqli_query($conn, $query);
+                                <div class='huge'><?php echo $count_users = recordCount('users');?></div>
 
-                                    $count_users = mysqli_num_rows($sel_all_users);
-                                    ?>
-
-                                    <div class='huge'><?php echo $count_users; ?></div>
                                     <div> Users</div>
                                 </div>
                             </div>
@@ -122,14 +100,8 @@
                                     <i class="fa fa-list fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <?php
-                                    $query = "SELECT * FROM categories";
-                                    $sel_all_cat = mysqli_query($conn, $query);
+                                <div class='huge'><?php echo $count_cat = recordCount('categories');?></div>
 
-                                    $count_cat = mysqli_num_rows($sel_all_cat);
-                                    ?>
-
-                                    <div class='huge'><?php echo $count_cat; ?></div>
                                     <div>Categories</div>
                                 </div>
                             </div>
@@ -145,32 +117,22 @@
                 </div>
             </div>
 
-<?php
+            <?php
 
-$query = "SELECT * FROM posts WHERE post_status = 'published'";
-$sel_all_pub = mysqli_query($conn, $query);
+            $count_pub = statusCheck('posts','post_status','published');
+            
+            $count_drafts =  statusCheck('posts','post_status','draft');
 
-$count_pub = mysqli_num_rows($sel_all_pub);
+            $count_unapproved = statusCheck('comments','comment_status','unapproved');
 
+            $count_subs = statusCheck('users','user_role','subscriber');
 
-$query = "SELECT * FROM posts WHERE post_status = 'draft'";
-$sel_all_drafts = mysqli_query($conn, $query);
-
-$count_drafts = mysqli_num_rows($sel_all_drafts);
-
-$query = "SELECT * FROM comments WHERE comment_status = 'unapproved'";
-$sel_all_unapproved = mysqli_query($conn, $query);
-
-$count_unapproved = mysqli_num_rows($sel_all_unapproved);
-
-$query = "SELECT * FROM users WHERE user_role = 'subscribers'";
-$sel_all_subs = mysqli_query($conn, $query);
-
-$count_subs = mysqli_num_rows($sel_all_subs);
+            $count_admins = statusCheck('users','user_role','admin');
 
 
 
-?>
+            ?>
+
 
 
             <div class="row">
@@ -183,23 +145,23 @@ $count_subs = mysqli_num_rows($sel_all_subs);
                     function drawChart() {
                         var data = google.visualization.arrayToDataTable([
                             ['Data', 'Count'],
-                            <?php 
-                            
-                            $element_text = ['All posts','Active Post','Draft Posts','Categories','Users','Subscribers','Comments','Unapproved Comments'];
-                            $element_count = [$count_posts,$count_pub,$count_drafts,$count_cat,$count_users,$count_subs,$count_comments,$count_unapproved];
+                            <?php
 
-                            for ($i = 0;$i < 8; $i++) {
+                            $element_text = ['All posts', 'Active Post', 'Draft Posts', 'Categories', 'Users', 'Subscribers', 'Admins', 'Comments', 'Unapproved Comments'];
+                            $element_count = [$count_posts, $count_pub, $count_drafts, $count_cat, $count_users, $count_subs, $count_admins, $count_comments, $count_unapproved];
+
+                            for ($i = 0; $i < 8; $i++) {
                                 echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
                             }
 
-                            
-                            
+
+
                             ?>
 
 
                             // ['Posts',1000]
 
- 
+
                         ]);
 
                         var options = {

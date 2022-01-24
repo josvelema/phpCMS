@@ -25,7 +25,11 @@ if (isset($_POST['update_post'])) {
   $post_image = $_FILES['post_image']['name'];
   $post_image_tmp = $_FILES['post_image']['tmp_name'];
 
-  $post_content = escape($_POST['post_content']);
+
+  //TODO lesson 266 <?php echo str_replace('\r\n','</br>', $post_content ); not working 
+  // find fix and escape post_content 
+  // ? stripcslashes()
+  $post_content = $_POST['post_content'];
   $post_tags = escape($_POST['post_tags']);
   move_uploaded_file($post_image_tmp, "../images/$post_image");
 
@@ -79,7 +83,15 @@ if (isset($_POST['update_post'])) {
 
         $cat_title = $row['cat_title'];
 
+
+        if($cat_id == $post_cat_id) {
+        echo "<option selected value='{$cat_id}'>{$cat_title}</option>";
+
+        } else {
         echo "<option value='{$cat_id}'>{$cat_title}</option>";
+
+        }
+
       }
 
 
@@ -137,7 +149,7 @@ if (isset($_POST['update_post'])) {
 
   <div class="form-group">
     <label for="post_content">Post Content</label>
-    <textarea class="form-control" name="post_content" id="" rows="10" cols="30"><?php echo $post_title; ?></textarea>
+    <textarea class="form-control" name="post_content" id="summernote" rows="10" cols="30"><?php echo $post_content;?></textarea>
   </div>
 
   <div class="form-group">
