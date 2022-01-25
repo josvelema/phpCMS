@@ -7,7 +7,11 @@ function escape($cleanMe)
   return mysqli_real_escape_string($conn, trim(strip_tags($cleanMe)));
 }
 
+function redirect($loc)
+{
 
+  return header("Location: " . $loc);
+}
 
 function confirm_query($result)
 {
@@ -137,5 +141,130 @@ function statusCheck($table, $column, $status)
   confirm_query($result);
 
   return mysqli_num_rows($result);
+}
 
+
+function isAdmin($user_name)
+{
+  global $conn;
+
+  $query = "SELECT user_role FROM users WHERE user_name = '$user_name'";
+
+  $result = mysqli_query($conn, $query);
+
+  confirm_query($result);
+
+  $row = mysqli_fetch_array($result);
+
+  if ($row['user_role'] == 'admin') {
+
+    return true;
+  } else {
+
+    return false;
+  }
+}
+
+function userExists($user_name)
+{
+  global $conn;
+
+  $query = "SELECT user_name FROM users WHERE user_name = '$user_name'";
+
+  $result = mysqli_query($conn, $query);
+
+  confirm_query($result);
+
+  $row = mysqli_fetch_array($result);
+
+  if (mysqli_num_rows($result) > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function userEmailExists($user_email)
+{
+  global $conn;
+
+  $query = "SELECT user_email FROM users WHERE user_email = '$user_email'";
+
+  $result = mysqli_query($conn, $query);
+
+  confirm_query($result);
+
+  $row = mysqli_fetch_array($result);
+
+  if (mysqli_num_rows($result) > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+function registerUser($user_name, $user_email, $user_pass)
+{
+
+  global $conn;
+
+
+  $user_name = escape($_POST['user_name']);
+  $user_email = escape($_POST['user_email']);
+  $user_pass = escape($_POST['user_pass']);
+ 
+
+  $user_pass = password_hash($user_pass, PASSWORD_BCRYPT, array('cost' => 12));
+
+
+
+
+
+    $query = "INSERT INTO users (user_name, user_email, user_pass, user_role) ";
+    $query .= "VALUES('{$user_name}','{$user_email}', '{$user_pass}','subscriber' ) ";
+
+    $register_user_query = mysqli_query($conn, $query);
+
+    confirm_query($register_user_query);
+  }
+
+
+function loginUser($username, $password) {
+  
+  global $conn;  
+  
+
+  $query = "SELECT * FROM users WHERE user_name = '{$username}' ";
+
+  $select_user_query = mysqli_query($conn, $query);
+
+  confirm_query($select_user_query);
+
+  while ($row = mysqli_fetch_array($select_user_query)) {
+
+    $db_user_id = $row['user_id'];
+    $db_user_name = $row['user_name'];
+    $db_user_pass = $row['user_pass'];
+
+    $db_user_first_name = $row['user_first_name'];
+    $db_user_last_name = $row['user_last_name'];
+    $db_user_email = $row['user_email'];
+    $db_user_role = $row['user_role'];
+  }
+
+
+  if (password_verify($password, $db_user_pass)) {
+    $_SESSION['session_user_name'] = $db_user_name;
+    $_SESSION['session_user_first_name'] = $db_user_first_name;
+    $_SESSION['session_user_last_name'] = $db_user_last_name;
+    $_SESSION['session_user_role'] = $db_user_role;
+
+    redirect("/cms/admin");
+
+  } else {
+
+    
+    redirect("/cms/index.php");
+  }
 }
