@@ -39,18 +39,20 @@ function insert_category()
       echo "This field should not be empty";
     } else {
 
-      $query = "INSERT INTO categories(cat_title) ";
-      $query .= "VALUE('{$cat_title}') ";
+      $stmt = mysqli_prepare($conn, "INSERT INTO categories(cat_title) VALUES(?) ");
 
-      $create_cat_query = mysqli_query($conn, $query);
+      mysqli_stmt_bind_param($stmt, 's', $cat_title);
 
-      if (!$create_cat_query) {
-        die('Query failed : ' . mysqli_error($conn));
-      }
+      mysqli_stmt_execute($stmt);
+
+      confirm_query($stmt);
+
     }
+
+
+    mysqli_stmt_close($stmt);
   }
 }
-
 // Read categories
 
 function read_categories()
@@ -90,6 +92,8 @@ function delete_category()
   }
 }
 
+
+
 function users_online()
 {
 
@@ -115,6 +119,8 @@ function users_online()
   $users_online_query = mysqli_query($conn, "SELECT * FROM users_online WHERE time > '$time_out'");
   return $count_users = mysqli_num_rows($users_online_query);
 }
+
+
 
 function recordCount($table)
 {
@@ -213,7 +219,7 @@ function registerUser($user_name, $user_email, $user_pass)
   $user_name = escape($_POST['user_name']);
   $user_email = escape($_POST['user_email']);
   $user_pass = escape($_POST['user_pass']);
- 
+
 
   $user_pass = password_hash($user_pass, PASSWORD_BCRYPT, array('cost' => 12));
 
@@ -221,19 +227,20 @@ function registerUser($user_name, $user_email, $user_pass)
 
 
 
-    $query = "INSERT INTO users (user_name, user_email, user_pass, user_role) ";
-    $query .= "VALUES('{$user_name}','{$user_email}', '{$user_pass}','subscriber' ) ";
+  $query = "INSERT INTO users (user_name, user_email, user_pass, user_role) ";
+  $query .= "VALUES('{$user_name}','{$user_email}', '{$user_pass}','subscriber' ) ";
 
-    $register_user_query = mysqli_query($conn, $query);
+  $register_user_query = mysqli_query($conn, $query);
 
-    confirm_query($register_user_query);
-  }
+  confirm_query($register_user_query);
+}
 
 
-function loginUser($username, $password) {
-  
-  global $conn;  
-  
+function loginUser($username, $password)
+{
+
+  global $conn;
+
 
   $query = "SELECT * FROM users WHERE user_name = '{$username}' ";
 
@@ -261,10 +268,9 @@ function loginUser($username, $password) {
     $_SESSION['session_user_role'] = $db_user_role;
 
     redirect("/cms/admin");
-
   } else {
 
-    
+
     redirect("/cms/index.php");
   }
 }
