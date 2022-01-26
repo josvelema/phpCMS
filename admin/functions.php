@@ -7,10 +7,35 @@ function escape($cleanMe)
   return mysqli_real_escape_string($conn, trim(strip_tags($cleanMe)));
 }
 
+function isMethod($method = null)
+{
+  if ($_SERVER['REQUEST_METHOD'] == strtoupper($method)) {
+    return true;
+  }
+  return false;
+}
+
+function isLoggedIn()
+{
+  if (isset($_SESSION['session_user_role'])) {
+    return true;
+  }
+  return false;
+}
+
+function checkLoginAndRedirect($redirectLocation)
+{
+  if (isLoggedIn()) {
+    redirect($redirectLocation);
+  }
+}
+
+
 function redirect($loc)
 {
 
-  return header("Location: " . $loc);
+  header("Location: " . $loc);
+  exit;
 }
 
 function confirm_query($result)
@@ -46,7 +71,6 @@ function insert_category()
       mysqli_stmt_execute($stmt);
 
       confirm_query($stmt);
-
     }
 
 
@@ -258,19 +282,19 @@ function loginUser($username, $password)
     $db_user_last_name = $row['user_last_name'];
     $db_user_email = $row['user_email'];
     $db_user_role = $row['user_role'];
-  }
 
+    if (password_verify($password, $db_user_pass)) {
+      $_SESSION['session_user_name'] = $db_user_name;
+      $_SESSION['session_user_first_name'] = $db_user_first_name;
+      $_SESSION['session_user_last_name'] = $db_user_last_name;
+      $_SESSION['session_user_role'] = $db_user_role;
 
-  if (password_verify($password, $db_user_pass)) {
-    $_SESSION['session_user_name'] = $db_user_name;
-    $_SESSION['session_user_first_name'] = $db_user_first_name;
-    $_SESSION['session_user_last_name'] = $db_user_last_name;
-    $_SESSION['session_user_role'] = $db_user_role;
+      redirect("/cms/admin");
+    } else {
 
-    redirect("/cms/admin");
-  } else {
-
-
-    redirect("/cms/index.php");
-  }
+      return false;
+      // redirect("/cms/index.php");
+    }
+  } 
+  return true;
 }

@@ -1,7 +1,33 @@
+
+<?php
+
+
+if(isMethod('post')){
+
+
+        if(isset($_POST['login'])){
+
+
+            if(isset($_POST['user_name']) && isset($_POST['user_pass'])){
+
+                loginUser($_POST['user_name'], $_POST['user_pass']);
+
+
+            }else {
+
+
+                redirect('index');
+            }
+
+
+        }
+
+}
+
+?>
+
+
 <div class="col-md-4">
-
-
-
     <!-- Blog Search Well -->
     <div class="well">
         <h4>Blog Search</h4>
@@ -33,7 +59,7 @@
         <?php else : ?>
             <h4>Login</h4>
 
-            <form action="includes/login.php" method="POST">
+            <form method="POST">
                 <div class="form-group">
                     <input type="text" class="form-control" name="user_name" placeholder="username">
                 </div>

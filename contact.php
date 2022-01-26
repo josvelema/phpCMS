@@ -4,14 +4,6 @@
 
 <?php
 
-function escape($cleanMe) {
-  global $conn;
-
-return mysqli_real_escape_string($conn, trim(strip_tags($cleanMe)));
-
-
-}
-
 if (isset($_POST['submit'])) {
 
     $to = "rjvelemail@gmail.com";

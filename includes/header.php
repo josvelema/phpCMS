@@ -4,6 +4,7 @@
 <html lang="en">
 
 <head>
+    <base href="http://localhost/cms/">
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +16,7 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="/cms/css/blog-home.css" rel="stylesheet">
+    <link href="css/blog-home.css" rel="stylesheet">
     <!-- Custom CSS -->
     <link href="css/styles.css" rel="stylesheet">
 
