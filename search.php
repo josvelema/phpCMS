@@ -34,68 +34,70 @@ include "includes/db.php";
           echo "<h2>No result</h2>";
         } else {
 
-          
-      
-
-      // $query = "SELECT * FROM posts";
-
-      // $select_all_posts = mysqli_query($conn, $query);
-
-      while ($row = mysqli_fetch_assoc($search_query)) {
-        $post_title = $row['post_title'];
 
 
-        $post_author = $row['post_author'];
 
-        $post_date = $row['post_date'];
+          // $query = "SELECT * FROM posts";
 
-        $post_image = $row['post_image'];
+          // $select_all_posts = mysqli_query($conn, $query);
 
-        $post_content = $row['post_content'];
+          while ($row = mysqli_fetch_assoc($search_query)) {
+
+            $post_id = $row['post_id'];
+
+            $post_title = $row['post_title'];
+
+
+            $post_author = $row['post_author'];
+
+            $post_date = $row['post_date'];
+
+            $post_image = $row['post_image'];
+
+            $post_content = $row['post_content'];
       ?>
 
-        <h1 class="page-header">
-          Page Heading
-          <small>Secondary Text</small>
-        </h1>
+            <h1 class="page-header">
+              <!-- <h2> <?php echo $total_posts; ?></h2> -->
+              <small>Secondary Text</small>
+            </h1>
 
-        <!-- First Blog Post -->
-        <h2>
-          <a href="#"><?php echo $post_title; ?></a>
-        </h2>
+            <!-- First Blog Post -->
+            <h2>
+              <!-- <a href="post.php?p_id= -->
 
+              <a href="post/<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
 
-        <p class="lead">
-          by <a href="index.php"><?php echo $post_author; ?></a>
-        </p>
+            </h2>
 
 
-        <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date; ?></p>
+            <p class="lead">
+              by <a href="author_posts.php?author=<?php echo $post_author; ?>&p_id=<?php echo $post_id ?>"><?php echo $post_author; ?></a>
+            </p>
 
 
-        <hr>
-
-        <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
-
-        <hr>
+            <p><span class="glyphicon glyphicon-time"></span><?php echo $post_date; ?></p>
 
 
-        <p><?php echo $post_content; ?></p>
-        <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
+            <hr>
+            <a href="post/<?php echo $post_id; ?>">
+              <img class="img-responsive" src="images/<?php echo $post_image; ?>" alt="">
+            </a>
+            <hr>
 
-        <hr>
 
-        
-        
-      <?php } 
+            <p><?php echo $post_content ?></p>
+            <a class="btn btn-primary" href="post/<?php echo $post_id; ?>">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
+            <hr>
 
 
 
+      <?php }
         }
       }
 
-?>
+      ?>
 
 
 

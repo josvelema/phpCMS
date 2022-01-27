@@ -298,3 +298,10 @@ function loginUser($username, $password)
   } 
   return true;
 }
+
+function currentUser() {
+  if(isset($_SESSION['session_user_name'])) {
+    return $_SESSION['session_user_name'];
+  }
+  return false;
+}

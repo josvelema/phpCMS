@@ -17,13 +17,20 @@
 
   <tbody>
 
+
     <?php
+    // $thisUser = currentUser();
+    $thisUser = "Jos";
+
     // joining tables , seperate tables and colums by a dot.
 
     $query = "SELECT posts.post_id, posts.post_author, posts.post_title, posts.post_content, posts.post_cat_id, posts.post_status, ";
     $query .= "posts.post_image, posts.post_tags, posts.post_comment_count, posts.post_date, posts.post_views, ";
     $query .= "categories.cat_id, categories.cat_title ";
-    $query .= "FROM posts LEFT JOIN categories ON posts.post_cat_id = categories.cat_id";
+    $query .= "FROM posts LEFT JOIN categories ON posts.post_cat_id = categories.cat_id ";
+    // $query .= "WHERE post_author = 'Jos'";
+
+//todo above change to $thisUser when db is reset. and make when admin function to see all posts
 
     $select_posts = mysqli_query($conn, $query);
 

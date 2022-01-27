@@ -1,6 +1,10 @@
 <?php ob_start(); ?>
 <?php
 
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
+
 include "includes/header.php";
 include "includes/db.php";
 

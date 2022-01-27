@@ -1,103 +1,84 @@
-<?php  include "includes/db.php"; ?>
-<?php  include "includes/header.php"; ?>
+<?php 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+?>
+<?php include "includes/db.php"; ?>
+<?php include "includes/header.php";?>
 
 
 
 <?php
 
+// require './vendor/autoload.php';
 require './vendor/autoload.php';
 
-    if(!isset($_GET['forgot'])){
-
-        redirect('index');
-
-    }
+require './vendor/phpmailer/phpmailer/src/Exception.php';
+require './vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require './vendor/phpmailer/phpmailer/src/SMTP.php';
 
 
-    if(isMethod('post')){
+if (!isset($_GET['forgot'])) {
 
-        if(isset($_POST['email'])) {
-
-            $email = $_POST['email'];
-
-            $length = 50;
-
-            $token = bin2hex(openssl_random_pseudo_bytes($length));
+    redirect('index');
+}
 
 
-            if(userEmailExists($email)){
+if (isMethod('post')) {
+
+    if (isset($_POST['email'])) {
+
+        $email = $_POST['email'];
+
+        $length = 50;
+
+        $token = bin2hex(openssl_random_pseudo_bytes($length));
 
 
-                if($stmt = mysqli_prepare($connection, "UPDATE users SET token='{$token}' WHERE user_email= ?")){
-
-                    mysqli_stmt_bind_param($stmt, "s", $email);
-                    mysqli_stmt_execute($stmt);
-                    mysqli_stmt_close($stmt);
+        if (userEmailExists($email)) {
 
 
+            if ($stmt = mysqli_prepare($conn, "UPDATE users SET token='{$token}' WHERE user_email= ?")) {
 
-                    /**
-                     *
-                     * configure PHPMailer
-                     *
-                     *
-                     */
-
-                    $mail = new PHPMailer();
-
-                    $mail->isSMTP();
-                    $mail->Host = Config::SMTP_HOST;
-                    $mail->Username = Config::SMTP_USER;
-                    $mail->Password = Config::SMTP_PASSWORD;
-                    $mail->Port = Config::SMTP_PORT;
-                    $mail->SMTPSecure = 'tls';
-                    $mail->SMTPAuth = true;
-                    $mail->isHTML(true);
-                    $mail->CharSet = 'UTF-8';
+                mysqli_stmt_bind_param($stmt, "s", $email);
+                mysqli_stmt_execute($stmt);
+                mysqli_stmt_close($stmt);
 
 
-                    $mail->setFrom('edwin@codingfaculty.com', 'Edwin Diaz');
-                    $mail->addAddress($email);
+                $mail = new PHPMailer();
 
-                    $mail->Subject = 'This is a test email';
+                include "./mailinfo.php";
+  
 
-                    $mail->Body = '<p>Please click to reset your password
+                $mail->SMTPSecure = 'tls';
+                $mail->isHTML(true);
+                $mail->CharSet = 'UTF-8';
 
-                    <a href="http://localhost:8888/cms/reset.php?email='.$email.'&token='.$token.' ">http://localhost:888/cms/reset.php?email='.$email.'&token='.$token.'</a>
+
+                $mail->setFrom('rjvelema@gmail.com ', 'Jos Velema');
+                $mail->addAddress($email);
+
+                $mail->Subject = 'This is a test email';
+
+                $mail->Body = '<p>Please click to reset your password
+
+                    <a href="http://localhost/cms/reset.php?email=' . $email . '&token=' . $token . ' ">http://localhost    /cms/reset.php?email=' . $email . '&token=' . $token . '</a>
 
 
 
                     </p>';
 
 
-                    if($mail->send()){
+                if ($mail->send()) {
+                    echo "msg sent!";
+                    $emailSent = true;
+                } else {
 
-                        $emailSent = true;
-
-                    } else{
-
-                        echo "NOT SENT";
-
-                    }
-
-
-
-
-
+                    echo "NOT SENT";
                 }
-
-
-
-
             }
-
-
-
-
         }
-
-
-     }
+    }
+}
 
 
 
@@ -122,7 +103,7 @@ require './vendor/autoload.php';
                         <div class="text-center">
 
 
-                        <?php if(!isset( $emailSent)): ?>
+                            <?php if (!isset($emailSent)) : ?>
 
 
                                 <h3><i class="fa fa-lock fa-4x"></i></h3>
@@ -138,7 +119,7 @@ require './vendor/autoload.php';
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <span class="input-group-addon"><i class="glyphicon glyphicon-envelope color-blue"></i></span>
-                                                <input id="email" name="email" placeholder="email address" class="form-control"  type="email">
+                                                <input id="email" name="email" placeholder="email address" class="form-control" type="email">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -150,13 +131,13 @@ require './vendor/autoload.php';
 
                                 </div><!-- Body-->
 
-                            <?php else: ?>
+                            <?php else : ?>
 
 
                                 <h2>Please check your email</h2>
 
 
-                            <?php endIf; ?>
+                            <?php endif; ?>
 
 
                         </div>
@@ -169,7 +150,6 @@ require './vendor/autoload.php';
 
     <hr>
 
-    <?php include "includes/footer.php";?>
+    <?php include "includes/footer.php"; ?>
 
 </div> <!-- /.container -->
-
