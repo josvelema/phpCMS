@@ -1,6 +1,7 @@
 <?php
 if (isset($_POST['create_post'])) {
   
+  $post_user_id = escape($_SESSION['session_user_id']);
   $post_title = escape($_POST['post_title']);
   $post_author = escape($_POST['post_author']);
   $post_cat_id = escape($_POST['post_cat']);
@@ -17,9 +18,9 @@ if (isset($_POST['create_post'])) {
 
   move_uploaded_file($post_image_tmp, "../images/$post_image");
 
-  $query = "INSERT INTO posts(post_cat_id , post_title, post_author, post_date, post_image, post_content, post_tags, post_status) ";
+  $query = "INSERT INTO posts(post_cat_id , post_user_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) ";
 
-  $query .= "VALUES({$post_cat_id} , '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}' ) ";
+  $query .= "VALUES({$post_cat_id}, '{$post_user_id}', '{$post_title}', '{$post_author}', now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}' ) ";
 
   $create_post_query = mysqli_query($conn, $query);
 

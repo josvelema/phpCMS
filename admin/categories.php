@@ -60,7 +60,8 @@
             <table class="table table-bordered table-hover">
               <thead>
                 <tr>
-                  <th>Id</th>
+                  <th>Category ID</th>
+                  <th>User ID</th>
                   <th>Category Title</th>
                   <th>Actions</th>
                 </tr>

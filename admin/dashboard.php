@@ -3,28 +3,6 @@
 <div id="wrapper">
 
     <?php include "includes/admin_nav.php"; ?>
-            <?php
-            $count_posts = userRecordCount(getUserPosts());
-
-            $count_comments = userRecordCount(getUserComments());
-
-            $count_cat = userRecordCount(getUserCategories());
-
-
-            
-            $count_pub = userRecordCount(getUserPublishedPosts());
-            
-            $count_drafts =  userRecordCount(getUserDraftPosts());
-            
-            $count_unapproved = userRecordCount(getUserUnapprovedComments());
-
-            $count_approved = userRecordCount(getUserApprovedComments());
-
-
-
-
-
-            ?>
     <div id="page-wrapper">
 
         <div class="container-fluid ">
@@ -33,8 +11,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">
-                        Welcome to Admin -
-                        <small><?php echo $_SESSION['session_user_name']; ?></small>
+                        Welcome to Admin Dashboard-
+                        <small><?php echo getUserName(); ?></small>
                     </h1>
 
 
@@ -55,7 +33,8 @@
                                     <i class="fa fa-file-text fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class='huge'><?php echo $count_posts; ?></div>
+                                    <!-- <div class='huge'><?php 
+                                    // echo userRecordCount(getUserPosts()); ?></div> -->
                                     <div>Posts</div>
                                 </div>
                             </div>
@@ -77,7 +56,7 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class='huge'><?php echo $count_comments ?></div>
+                                    <div class='huge'><?php echo $count_comments = recordCount('comments'); ?></div>
                                     <div>Comments</div>
                                 </div>
                             </div>
@@ -99,7 +78,7 @@
                                     <i class="fa fa-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                <div class='huge'><?php echo "nee" ; ?></div>
+                                <div class='huge'><?php echo $count_users = recordCount('users');?></div>
 
                                     <div> Users</div>
                                 </div>
@@ -122,7 +101,7 @@
                                     <i class="fa fa-list fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                <div class='huge'><?php echo $count_cat ;?></div>
+                                <div class='huge'><?php echo $count_cat = recordCount('categories');?></div>
 
                                     <div>Categories</div>
                                 </div>
@@ -139,6 +118,21 @@
                 </div>
             </div>
 
+            <?php
+
+            $count_pub = statusCheck('posts','post_status','published');
+            
+            $count_drafts =  statusCheck('posts','post_status','draft');
+
+            $count_unapproved = statusCheck('comments','comment_status','unapproved');
+
+            $count_subs = statusCheck('users','user_role','subscriber');
+
+            $count_admins = statusCheck('users','user_role','admin');
+
+
+
+            ?>
 
 
 
@@ -154,10 +148,10 @@
                             ['Data', 'Count'],
                             <?php
 
-                            $element_text = ['Posts','Active Post', 'Draft Posts', 'Comments','Approved Comments', 'Unapproved Comments','Categories'];
-                            $element_count = [$count_posts, $count_pub, $count_drafts, $count_comments, $count_approved, $count_unapproved, $count_cat];
+                            $element_text = ['All posts', 'Active Post', 'Draft Posts', 'Categories', 'Users', 'Subscribers', 'Admins', 'Comments', 'Unapproved Comments'];
+                            $element_count = [$count_posts, $count_pub, $count_drafts, $count_cat, $count_users, $count_subs, $count_admins, $count_comments, $count_unapproved];
 
-                            for ($i = 0; $i < 7; $i++) {
+                            for ($i = 0; $i < 8; $i++) {
                                 echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
                             }
 

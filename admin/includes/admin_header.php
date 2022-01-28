@@ -23,8 +23,6 @@ if (!isset($_SESSION['session_user_role'])) {
 
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
