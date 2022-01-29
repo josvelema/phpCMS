@@ -2,6 +2,7 @@
 if (isset($_POST['create_post'])) {
   
   $post_user_id = escape($_SESSION['session_user_id']);
+  
   $post_title = escape($_POST['post_title']);
   $post_author = escape($_POST['post_author']);
   $post_cat_id = escape($_POST['post_cat']);
